@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Typing Speed Tester</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <div class="background-effects">
+        <div class="glow-orb top-left"></div>
+        <div class="glow-orb bottom-right"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <span class="icon">⌨️</span>
+                <h1>Type<span class="highlight">Flow</span></h1>
+            </div>
+            <div class="controls">
+                <button id="soundToggle" class="icon-btn active" title="Toggle Sound">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="sound-on"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="sound-off" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                </button>
+                <button id="themeToggle" class="icon-btn" title="Toggle Theme">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="sun" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Settings Bar -->
+        <div class="settings-bar glass-panel">
+            <div class="setting-group">
+                <span class="setting-label">Time:</span>
+                <div class="options time-options">
+                    <button class="option-btn" data-time="15">15s</button>
+                    <button class="option-btn" data-time="30">30s</button>
+                    <button class="option-btn active" data-time="60">60s</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <span class="setting-label">Difficulty:</span>
+                <div class="options difficulty-options">
+                    <button class="option-btn" data-diff="easy">Easy</button>
+                    <button class="option-btn active" data-diff="medium">Medium</button>
+                    <button class="option-btn" data-diff="hard">Hard</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Caps Lock Warning -->
+        <div id="capsWarning" class="warning-banner" style="display: none;">
+            ⚠️ Caps Lock is ON
+        </div>
+
+        <!-- Main Game Area -->
+        <main class="game-area glass-panel">
+            <div class="stats-header">
+                <div class="stat-box">
+                    <span class="stat-label">Time</span>
+                    <span class="stat-value" id="timeLeft">60</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">WPM</span>
+                    <span class="stat-value" id="liveWpm">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">CPM</span>
+                    <span class="stat-value" id="liveCpm">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Acc</span>
+                    <span class="stat-value" id="liveAcc">100%</span>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="typing-box" id="typingBox">
+                <!-- Start Overlay -->
+                <div id="startOverlay" class="overlay active">
+                    <h2>Ready to type?</h2>
+                    <p>Click anywhere or start typing to begin</p>
+                    <button id="startBtn" class="primary-btn">Start Now</button>
+                </div>
+
+                <div class="text-container" id="textDisplay">
+                    <!-- Text generated dynamically -->
+                </div>
+                <div class="cursor" id="cursor"></div>
+                <input type="text" id="hiddenInput" class="hidden-input" autocomplete="off" spellcheck="false" autocorrect="off">
+            </div>
+
+            <div class="game-footer">
+                <button id="restartBtn" class="icon-btn" title="Restart (Tab + Enter)">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    <span>Restart</span>
+                </button>
+                <div class="error-count">
+                    Errors: <span id="errorCount">0</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Leaderboard Preview -->
+        <div class="leaderboard-preview glass-panel">
+            <h3><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"></path></svg> Top Scores</h3>
+            <ul id="leaderboardList" class="mini-leaderboard">
+                <li class="empty-msg">No scores yet. Complete a test!</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="resultsModal" class="modal-backdrop">
+        <div class="modal-content glass-panel">
+            <h2>Test Complete!</h2>
+            
+            <div class="results-grid">
+                <div class="result-card highlight-card">
+                    <span class="result-label">WPM</span>
+                    <span class="result-value" id="resultWpm">0</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-label">Accuracy</span>
+                    <span class="result-value" id="resultAcc">0%</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-label">CPM</span>
+                    <span class="result-value" id="resultCpm">0</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-label">Errors</span>
+                    <span class="result-value" id="resultErrors">0</span>
+                </div>
+            </div>
+
+            <div class="test-details">
+                <span id="resultMode">60s • Medium</span>
+            </div>
+
+            <div class="modal-actions">
+                <button id="modalRestartBtn" class="primary-btn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
