@@ -61,6 +61,11 @@ const modalRestartBtn = document.getElementById('modalRestartBtn');
 // Leaderboard Elements
 const leaderboardList = document.getElementById('leaderboardList');
 
+// Chatbot Elements
+const chatbotToggleBtn = document.getElementById('chatbotToggleBtn');
+const closeChatbotBtn = document.getElementById('closeChatbotBtn');
+const chatbotWindow = document.getElementById('chatbotWindow');
+
 // --- Audio Context ---
 let audioCtx = null;
 
@@ -192,6 +197,17 @@ function setupEventListeners() {
             resetTest();
         }
     });
+
+    // Chatbot Toggle
+    if (chatbotToggleBtn && chatbotWindow && closeChatbotBtn) {
+        chatbotToggleBtn.addEventListener('click', () => {
+            chatbotWindow.classList.toggle('active');
+        });
+        
+        closeChatbotBtn.addEventListener('click', () => {
+            chatbotWindow.classList.remove('active');
+        });
+    }
 }
 
 // --- Settings & UI Toggles ---
